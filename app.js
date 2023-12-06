@@ -40,8 +40,8 @@ app.use(session({
 
 
 // mongodb connection
-mongoose.connect('mongodb://0.0.0.0:27017/abbass_new', {
-  // mongoose.connect("mongodb+srv://asim:mardan@cluster0.btwlh.mongodb.net/abbass_new?retryWrites=true&w=majority",{
+// mongoose.connect('mongodb://0.0.0.0:27017/abbass_new', {
+  mongoose.connect("mongodb+srv://asim:mardan@cluster0.btwlh.mongodb.net/abbass_new?retryWrites=true&w=majority",{
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }).then(() => { console.log("DB Connected !") }).catch((e) => { console.log(e) })
