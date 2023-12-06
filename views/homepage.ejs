@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abbass</title>
+
+    <!-- Include Tailwind CSS via CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <%- include("./partials/navbar.ejs") %>
+    
+    <div class="container mx-auto mt-8">
+        <h1 class="text-3xl font-bold mb-6">Product Listing (from Public API ) <small class="text-sm text-blue-500 font-normal">https://dummyjson.com/products</small></h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <% products.forEach(product => { %>
+                <div class="bg-white p-4 rounded-md shadow-md">
+                    <a href="/products/<%= product.id %>">
+                    <img src="<%= product.thumbnail %>" alt="<%= product.title %>" class="w-full h-32  object-cover mb-4">
+                </a>
+                    <h2 class="text-xl font-bold mb-2"><%= product.title %></h2>
+                    <div class="flex flex-row justify-between items-center">
+                        <p class="text-gray-700 mb-2">$<%= product.price.toFixed(2) %></p>
+                        <p class="text-gray-700 mb-2">ratings : <%= product.rating.toFixed(2) %></p>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+
+    </div>
+
+
+</body>
+</html>

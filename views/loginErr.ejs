@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Error</title>
+
+    <!-- Include Tailwind CSS via CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body >
+    <%- include("./partials/navbar.ejs") %>
+
+    <main  class="bg-gray-100 h-screen flex justify-center items-center">
+
+    <div class="bg-gray-200 p-8 w-6/12 mx-auto rounded shadow-md rounded-md">
+        <h1 class="text-2xl font-bold mb-6">Login Error</h1>
+
+        <p class="text-red-500 mb-4">Invalid email or password. Please try again.</p>
+
+        <a href="/login" class="text-blue-500 hover:underline">Go back to login</a>
+    </div>
+    </main>
+</body>
+</html>
