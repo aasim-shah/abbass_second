@@ -153,7 +153,7 @@ app.use(async (req, res, next) => {
 
 
 app.get('/', async (req, res) => {
-  const {data} = await axios.get("https://api.slingacademy.com/v1/sample-data/blog-posts?limit=5")
+  const {data} = await axios.get("https://api.slingacademy.com/v1/sample-data/blog-posts?limit=10")
   console.log({data})
     res.render('homepage' , {blogs : data.blogs});
   });
