@@ -9,6 +9,7 @@ const postSchema = mongoose.Schema({
     photo_url : String,
     description:String,
     content_html:String,
+    created_at : {type : Date , default  : Date.now},
     userRef : {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
