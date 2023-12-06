@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= product.title %> - Product Details</title>
+    <title><%= blog.title %> - blog Details</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1/dist/css/glide.core.min.css">
     <style>
@@ -57,46 +57,36 @@
 
     <div class="max-w-2xl mx-auto bg-white p-8 rounded shadow">
 
-        <!-- Product Image Carousel -->
-        <div id="productCarousel" class="mb-4 glide">
-            <div class="glide__track" data-glide-el="track">
-                <ul class="glide__slides">
-                    <% product.images.forEach(image => { %>
-                        <li class="glide__slide" style="width: 25rem; height: 25rem;">
-                            <img src="<%= image %>" alt="<%= product.title %>" class="w-full h-full rounded">
-                        </li>
-                    <% }); %>
-                </ul>
-            </div>
-        </div>
 
-        <!-- Product Details -->
+        <!-- blog Details -->
         <div>
-            <h1 class="text-2xl font-bold mb-2"><%= product.title %></h1>
-            <p class="text-gray-600 mb-4"><%= product.description %></p>
-
-            <!-- Other product details... -->
-
-            <!-- Price -->
-            <div class="flex items-center mb-4">
-                <span class="text-gray-700">Brand:</span>
-                <span class=" font-semibold ml-2"><%= product.brand %></span>
+            <h1 class="text-2xl font-bold mb-2"><%= blog.title %></h1>
+         
+            <div class="h-96 w-full">
+                <img src="<%= blog.photo_url %>" class="h-full w-full" alt="">
             </div>
-            <div class="flex items-center mb-4">
+            <div class="flex mt-5 items-center ">
                 <span class="text-gray-700">Category :</span>
-                <span class=" font-semibold ml-2"><%= product.category %></span>
+                <span class="  ml-2"><%= blog.category %></span>
             </div>
-            <div class="flex items-center mb-4">
-                <span class="text-gray-700">Price:</span>
-                <span class="text-green-700 font-bold ml-2">$<%= product.price.toFixed(2) %></span>
+            <div class="flex  items-center mb-4">
+                <span class="text-gray-700">Description :</span>
+                <span class=" text-sm ml-2"><%= blog.description %></span>
             </div>
+
+            <p class="text-gray-600 mb-4">Content: <%- blog.content_html %></p>
+
+            <!-- Other blog details... -->
+
+         
+          
         </div>
 
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1"></script>
     <script>
-        new Glide('#productCarousel', {
+        new Glide('#blogCarousel', {
             type: 'carousel',
             startAt: 0,
             perView: 1,

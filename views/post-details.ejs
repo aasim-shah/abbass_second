@@ -10,10 +10,10 @@
     <!-- Include Tailwind CSS via CDN -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray-100  h-screen">
     <%- include("./partials/navbar.ejs") %>
 
-    <main class="bg-gray-100 h-screen flex justify-center items-center">
+    <main class=" my-5 flex justify-center items-center">
         <div class="bg-gray-200 p-8 w-8/12 mx-auto rounded shadow-md rounded-md">
             <div class="flex flex-row  mb-6 justify-between">
                 <h1 class="text-2xl font-bold">Your Posts</h1>
@@ -22,9 +22,12 @@
             <% if (posts.length > 0) { %>
                 <ul>
                     <% posts.forEach(post => { %>
-                        <li class="mb-4">
-                            <h2 class="text-xl font-semibold mb-2"><%= post.title %></h2>
-                            <p class="text-gray-600"><%= post.description %></p>
+                        <li class="mb-4 p-3 border-2 border-gray-400 rounded-md">
+                            <p class="text-lg font-semibold mb-2">Title : <%= post.title %></p>
+                            <p class="text-gray-600">Category : <%= post.category %></p>
+                            <p class="text-gray-600">Image : <%= post.photo_url %></p>
+                            <p class="text-gray-600">Description : <%= post.description %></p>
+                            <p class="text-gray-600">Description : <%= post.content_html %></p>
                         </li>
                     <% }); %>
                 </ul>

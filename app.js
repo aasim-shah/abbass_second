@@ -12,6 +12,7 @@ const mongoose = require("mongoose")
 const axios = require('axios')
 const bcrypt = require('bcrypt')
 const User = require('./models/userModel');
+const upload = require('./utils/multer')
 const Post = require('./models/postModel');
 
 
@@ -20,6 +21,7 @@ app.set('view engine', 'ejs');
 
 // directs Express to the public folder for stylesheets
 app.use(express.static('public'));
+app.use( "/our_posts" , express.static('public'));
 
 
 // some important middlewares
@@ -38,8 +40,8 @@ app.use(session({
 
 
 // mongodb connection
-// mongoose.connect('mongodb://0.0.0.0:27017/abbass_new', {
-  mongoose.connect("mongodb+srv://asim:mardan@cluster0.btwlh.mongodb.net/abbass_new?retryWrites=true&w=majority",{
+mongoose.connect('mongodb://0.0.0.0:27017/abbass_new', {
+  // mongoose.connect("mongodb+srv://asim:mardan@cluster0.btwlh.mongodb.net/abbass_new?retryWrites=true&w=majority",{
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }).then(() => { console.log("DB Connected !") }).catch((e) => { console.log(e) })
@@ -151,8 +153,15 @@ app.use(async (req, res, next) => {
 
 
 app.get('/', async (req, res) => {
-  const {data} = await axios.get("https://dummyjson.com/products?limit=12")
-    res.render('homepage' , {products : data.products});
+  const {data} = await axios.get("https://api.slingacademy.com/v1/sample-data/blog-posts?limit=5")
+  console.log({data})
+    res.render('homepage' , {blogs : data.blogs});
+  });
+
+
+app.get('/our_posts', async (req, res) => {
+    const posts =  await Post.find({})
+    res.render('homepage' , {blogs : posts});
   });
 
 
@@ -160,9 +169,15 @@ app.get('/', async (req, res) => {
 
 
 
-app.get('/products/:id', async (req, res) => {
-  const {data} = await axios.get("https://dummyjson.com/products/"+req.params.id)
-    res.render('product-details' , {product : data});
+app.get('/blogs/:id', async (req, res) => {
+  if (mongoose.Types.ObjectId.isValid(req.params.id)) {
+    const post = await Post.findById(req.params.id)
+    res.render('postDetails' , {blog : post});
+} else {
+  const {data} = await axios.get("https://api.slingacademy.com/v1/sample-data/blog-posts/"+req.params.id)
+ return res.render('postDetails' , {blog : data.blog});
+}
+  
   });
   
 
@@ -171,7 +186,7 @@ app.get('/products/:id', async (req, res) => {
   // admin
   app.get('/admin', isAuthenticated, async (req, res) => {
     if(!req.user.isAdmin){
-      res.redirect("/")
+      res.redirect("/adminLogin")
     }
     const users = await User.find()
     res.render('admin' ,{users});
@@ -186,17 +201,21 @@ app.get('/products/:id', async (req, res) => {
     res.render('createPost');
   });
   
-app.post('/create', isAuthenticated, async (req, res) => {
+app.post('/create', isAuthenticated, upload.single("photo_url")  , async (req, res) => {
+  console.log(req.file)
   try {
-      const { title, description } = req.body;
+      const { title, description , category  , content_html} = req.body;
 
       const newPost = new Post({
           username: req.user.fullname, 
           title,
+          content_html,
+          category,
+          photo_url : "/uploads/"+req.file.filename,
           description,
           userRef : req.user._id,
       });
-
+      newPost.id = newPost._id
       await newPost.save();
 
       res.redirect('/user/posts'); 
