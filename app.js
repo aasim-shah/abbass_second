@@ -155,7 +155,8 @@ app.use(async (req, res, next) => {
 app.get('/', async (req, res) => {
   const {data} = await axios.get("https://api.slingacademy.com/v1/sample-data/blog-posts?limit=10")
   const posts =  await Post.find({})
-    res.render('homepage' , {blogs : data.blogs , posts});
+  const mergedArray = [...data.blogs, ...posts];
+    res.render('homepage' , {blogs : mergedArray});
   });
 
 
