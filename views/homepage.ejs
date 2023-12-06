@@ -15,11 +15,6 @@
     <div class="container mx-auto mt-8">
         <div class="flex flex-row mb-5 justify-between">
             <h1 class="text-3xl font-bold mb-6">Latest Blog Posts</h1>
-
-            <div class="flex flex-row gap-4 items-center">
-                <a href="/" class="px-5 py-2  font-semibold rounded-md bg-yellow-300">Public API POSTS </a>
-                <a href="/our_posts" class="px-5 py-2 font-semibold rounded-md  bg-green-300">OUR POSTS</a>
-            </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             <% blogs.forEach(blog => { %>
@@ -42,6 +37,30 @@
                 </div>
             <% }); %>
         </div>
+
+
+        <div class="grid grid-cols-1 mt-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <% posts.forEach(post => { %>
+                <div class="bg-white p-4 rounded-md shadow-md">
+                    <a href="/blogs/<%= post.id %>">
+                        <img src="<%= post.photo_url %>" alt="<%= post.title %>" class="w-full h-32 object-cover mb-4">
+                    </a>
+                    <h2 class="text-lg font-semibold mb-3"><%= post.title %></h2>
+                    <div class="flex flex-col mb-4">
+                        <%   function formatDate(dateString) {
+                            const options = { day: 'numeric', month: 'short' };
+                            const date = new Date(dateString);
+                            return date.toLocaleDateString('en-US', options);
+                        } %>
+                        <p class="text-gray-700 text-xs ">Category: <%= post.category %></p>
+                        <p class="text-gray-700 text-xs  ">posted at .  <%- formatDate(post.created_at) %></p>
+                    </div>
+                    <p class="text-gray-700 mb-2"><%= post.description %></p>
+
+                </div>
+            <% }); %>
+        </div>
+
 
     </div>
 
