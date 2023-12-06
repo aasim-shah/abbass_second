@@ -11,7 +11,8 @@ const LocalStrategy = require('passport-local').Strategy;
 const mongoose = require("mongoose")
 const axios = require('axios')
 const bcrypt = require('bcrypt')
-const User = require('./models/userModel')
+const User = require('./models/userModel');
+const Post = require('./models/postModel');
 
 
 // sets the view engine to EJS
@@ -152,13 +153,84 @@ app.get('/', async (req, res) => {
   const {data} = await axios.get("https://dummyjson.com/products?limit=12")
     res.render('homepage' , {products : data.products});
   });
+
+
+
+
+
+
+app.get('/products/:id', async (req, res) => {
+  const {data} = await axios.get("https://dummyjson.com/products/"+req.params.id)
+    res.render('product-details' , {product : data});
+  });
   
+
+
+
+  // admin
+  app.get('/admin', isAuthenticated, async (req, res) => {
+    if(!req.user.isAdmin){
+      res.redirect("/")
+    }
+    const users = await User.find()
+    res.render('admin' ,{users});
+  });
+
   app.get('/admin/login', (req, res) => {
     res.render('adminLogin');
   });
+
+  // posts
+  app.get('/create', (req, res) => {
+    res.render('createPost');
+  });
+  
+app.post('/create', isAuthenticated, async (req, res) => {
+  try {
+      const { title, description } = req.body;
+
+      const newPost = new Post({
+          username: req.user.fullname, 
+          title,
+          description,
+          userRef : req.user._id,
+      });
+
+      await newPost.save();
+
+      res.redirect('/user/posts'); 
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/user/posts', isAuthenticated, async (req, res) => {
+    const posts =  await Post.find({userRef : req.user._id})
+    res.render('post-details' , {posts});
+  });
+
+
+
+
+
+
   app.get('/login', (req, res) => {
     res.render('login');
   });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

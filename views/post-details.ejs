@@ -1,0 +1,37 @@
+<!-- posts.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Posts</title>
+
+    <!-- Include Tailwind CSS via CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <%- include("./partials/navbar.ejs") %>
+
+    <main class="bg-gray-100 h-screen flex justify-center items-center">
+        <div class="bg-gray-200 p-8 w-8/12 mx-auto rounded shadow-md rounded-md">
+            <div class="flex flex-row  mb-6 justify-between">
+                <h1 class="text-2xl font-bold">Your Posts</h1>
+                <a href="/create" class="py-2 text-white px-2 rounded-md bg-blue-500 font-bold"> New post</a>
+            </div>
+            <% if (posts.length > 0) { %>
+                <ul>
+                    <% posts.forEach(post => { %>
+                        <li class="mb-4">
+                            <h2 class="text-xl font-semibold mb-2"><%= post.title %></h2>
+                            <p class="text-gray-600"><%= post.description %></p>
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } else { %>
+                <p class="text-gray-600">You have no posts yet.</p>
+            <% } %>
+        </div>
+    </main>
+</body>
+</html>

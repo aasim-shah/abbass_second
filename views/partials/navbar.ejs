@@ -2,6 +2,7 @@
     <span class="text-2xl font-bold "><a href="/">LOGO</a></span>
     <div class="flex gap-3 flex-row">
        <% if( user &&  user.id){ %>
+        <a href="/user/posts" class="font-semibold   hover:text-blue-800">POSTS</a>
         <a href="/logout" class="font-semibold   hover:text-blue-800">LOGOUT</a>
         <%}else{%>
             <a href="/login" class="font-semibold  border-2 border-gray-500 px-2 py-1 rounded-md hover:text-blue-800">LOGIN</a>

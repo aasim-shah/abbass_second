@@ -1,0 +1,51 @@
+<!-- adminUsers.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Users</title>
+
+    <!-- Include Tailwind CSS via CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <%- include("./partials/navbar.ejs") %>
+
+    <main class="bg-gray-100  py-12  flex justify-center ">
+        <div class="bg-gray-200  p-8 w-8/12 mx-auto rounded shadow-md rounded-md">
+            <h1 class="text-2xl font-bold mb-6">All Users</h1>
+
+            <% if (users.length > 0) { %>
+                <table class="min-w-full bg-gray-100 rounded-md  border border-gray-300">
+                    <thead>
+                        <tr class="">
+                            <th class="border-b text-left py-2 px-4">Name</th>
+                            <th class="border-b text-left py-2 px-4">Email</th>
+                            <th class="border-b text-left py-2 px-4">Phone</th>
+                            <th class="border-b text-center py-2 px-4">Action</th>
+                            <!-- Add more columns as needed -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach(user => { %>
+                            <tr class="hover:bg-gray-100">
+                                <td class="py-2 px-4"><%= user.fullname %></td>
+                                <td class="py-2 px-4"><%= user.email %></td>
+                                <td class="py-2 px-4"><%= user.phone %></td>
+                                <td class="py-2 text-center px-4">
+                                    <a href="/delete/<%= user._id %>" class="py-1 px-2 rounded-md bg-red-400">Delete</a>
+                                </td>
+                                <!-- Add more columns as needed -->
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <p class="text-gray-600">No users found.</p>
+            <% } %>
+        </div>
+    </main>
+</body>
+</html>

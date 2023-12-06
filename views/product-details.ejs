@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= product.title %> - Product Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1/dist/css/glide.core.min.css">
+    <style>
+        body {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .bg-gray-100 {
+            background-color: #fff;
+        }
+
+        .bg-white {
+            background-color: #fff;
+        }
+
+        .text-gray-700 {
+            color: #000;
+        }
+
+        .text-white {
+            color: #fff;
+        }
+
+        .text-green-700 {
+            color: #00a859;
+        }
+
+        .text-red-700 {
+            color: #e53e3e;
+        }
+
+        .text-yellow-500 {
+            color: #f59e0b;
+        }
+
+        .text-blue-700 {
+            color: #3b82f6;
+        }
+
+        .text-indigo-700 {
+            color: #6366f1;
+        }
+
+        .text-purple-700 {
+            color: #9333ea;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+
+    <div class="max-w-2xl mx-auto bg-white p-8 rounded shadow">
+
+        <!-- Product Image Carousel -->
+        <div id="productCarousel" class="mb-4 glide">
+            <div class="glide__track" data-glide-el="track">
+                <ul class="glide__slides">
+                    <% product.images.forEach(image => { %>
+                        <li class="glide__slide" style="width: 25rem; height: 25rem;">
+                            <img src="<%= image %>" alt="<%= product.title %>" class="w-full h-full rounded">
+                        </li>
+                    <% }); %>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div>
+            <h1 class="text-2xl font-bold mb-2"><%= product.title %></h1>
+            <p class="text-gray-600 mb-4"><%= product.description %></p>
+
+            <!-- Other product details... -->
+
+            <!-- Price -->
+            <div class="flex items-center mb-4">
+                <span class="text-gray-700">Brand:</span>
+                <span class=" font-semibold ml-2"><%= product.brand %></span>
+            </div>
+            <div class="flex items-center mb-4">
+                <span class="text-gray-700">Category :</span>
+                <span class=" font-semibold ml-2"><%= product.category %></span>
+            </div>
+            <div class="flex items-center mb-4">
+                <span class="text-gray-700">Price:</span>
+                <span class="text-green-700 font-bold ml-2">$<%= product.price.toFixed(2) %></span>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1"></script>
+    <script>
+        new Glide('#productCarousel', {
+            type: 'carousel',
+            startAt: 0,
+            perView: 1,
+            focusAt: 'center',
+            gap: 0
+        }).mount();
+    </script>
+
+</body>
+</html>
