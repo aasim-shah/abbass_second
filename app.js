@@ -217,6 +217,7 @@ app.get('/', async (req, res) => {
   
     try {
       event = stripe.webhooks.constructEvent(request.rawBody, sig, endpointSecret);
+      console.log({event})
     } catch (err) {
       console.log({err})
       response.status(400).send(`Webhook Error: ${err.message}`);
@@ -235,6 +236,7 @@ app.get('/', async (req, res) => {
         break;
       case 'payment_intent.created':
         const paymentIntentCreated = event.data.object;
+        console.log(event.data.object)
         // Then define and call a function to handle the event payment_intent.created
         break;
       case 'payment_intent.partially_funded':
@@ -255,6 +257,7 @@ app.get('/', async (req, res) => {
         break;
       case 'payment_intent.succeeded':
         const paymentIntentSucceeded = event.data.object;
+        console.log(event.data.object)
         // Then define and call a function to handle the event payment_intent.succeeded
         break;
       // ... handle other event types
