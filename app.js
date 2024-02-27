@@ -12,6 +12,7 @@ const mongoose = require("mongoose")
 const axios = require('axios')
 const bcrypt = require('bcrypt')
 const User = require('./models/userModel');
+const morgan = require("morgan")
 
 const cors = require("cors")
 const upload = require('./utils/multer')
@@ -63,6 +64,7 @@ app.use(session({
 
 
 
+  app.use(morgan('tiny'));
 
 
 // initializing passportjs
