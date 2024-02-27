@@ -211,13 +211,12 @@ app.get('/', async (req, res) => {
   app.post('/webhook', (request, response) => {
     const sig = request.headers['stripe-signature'];
   
-    console.log({sig})
-    console.log({body : request.body})
     let event;
   
     try {
       event = stripe.webhooks.constructEvent(request.rawBody, sig, endpointSecret);
-      console.log({event})
+      console.log({data : event.data})
+      console.log({ object: event.data.object})
     } catch (err) {
       console.log({err})
       response.status(400).send(`Webhook Error: ${err.message}`);
@@ -225,7 +224,7 @@ app.get('/', async (req, res) => {
     }
   
 
-    
+
     // Handle the event
     switch (event.type) {
       case 'payment_intent.amount_capturable_updated':
