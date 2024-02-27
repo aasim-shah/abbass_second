@@ -12,6 +12,8 @@ const mongoose = require("mongoose")
 const axios = require('axios')
 const bcrypt = require('bcrypt')
 const User = require('./models/userModel');
+
+const cors = require("cors")
 const upload = require('./utils/multer')
 const Post = require('./models/postModel');
 
@@ -35,6 +37,7 @@ const stripe = require('stripe')('sk_test_51KiiRNDs0edGSqAmcnTPzbYm945ppuerWhPzk
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser())
+app.use(cors())
 
 app.use(session({
   secret: "mysuperSecret",
