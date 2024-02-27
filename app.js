@@ -224,6 +224,8 @@ app.get('/', async (req, res) => {
       return;
     }
   
+
+    
     // Handle the event
     switch (event.type) {
       case 'payment_intent.amount_capturable_updated':
