@@ -24,6 +24,13 @@ app.use(express.static('public'));
 app.use( "/our_posts" , express.static('public'));
 
 
+
+const stripe = require('stripe')('sk_test_51KiiRNDs0edGSqAmcnTPzbYm945ppuerWhPzkCi0WBfRG60KWfciQtD4my0bpr0QjiJl7VcC4UTBfTPfbK1atdVD00S3PmIUI8');
+// stripePubKey = pk_test_51KiiRNDs0edGSqAmL8OvoU596SpjoJKVhMUbikYZM3ScPS2A7U2Loi2g3GTAvTvTek1d6fznTmAZDk6hywJw6dFn003tYT4BES
+
+
+
+
 // some important middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -41,7 +48,7 @@ app.use(session({
 
 // mongodb connection
 // mongoose.connect('mongodb://0.0.0.0:27017/abbass_new', {
-  mongoose.connect("mongodb+srv://asim:mardan@cluster0.btwlh.mongodb.net/abbass_new?retryWrites=true&w=majority",{
+  mongoose.connect("mongodb+srv://asim:mardan8110@cluster0.btwlh.mongodb.net/quick_buzinesx?retryWrites=true&w=majority",{
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }).then(() => { console.log("DB Connected !") }).catch((e) => { console.log(e) })
@@ -158,6 +165,101 @@ app.get('/', async (req, res) => {
   const mergedArray = [...data.blogs, ...posts];
     res.render('homepage' , {blogs : mergedArray});
   });
+
+
+
+
+
+
+  app.post('/initatePayment', async (req, res) => {
+    try {
+      const { amount } = req.body; // you should calculate the amount on the server to prevent manipulation
+      
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: amount, // amount in the smallest currency unit, e.g., cents for USD
+        currency: 'usd',
+        // add other relevant payment intent properties
+      });
+      
+      res.send({
+        clientSecret: paymentIntent.client_secret,
+      });
+    } catch (error) {
+      res.status(500).send({ error: error.message });
+    }
+  });
+  
+  
+  
+  
+  app.post("/getWebhook" , async(req,res) =>{
+    console.log(req.body)
+  })
+  
+  
+  
+  // This is your Stripe CLI webhook secret for testing your endpoint locally.
+  const endpointSecret = "whsec_DBj3jBTj5N2DVzIjGdJWPXWLAbf94ykU";
+  app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
+    const sig = request.headers['stripe-signature'];
+  
+    let event;
+  
+    try {
+      event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+    } catch (err) {
+      response.status(400).send(`Webhook Error: ${err.message}`);
+      return;
+    }
+  
+    // Handle the event
+    switch (event.type) {
+      case 'payment_intent.amount_capturable_updated':
+        const paymentIntentAmountCapturableUpdated = event.data.object;
+        // Then define and call a function to handle the event payment_intent.amount_capturable_updated
+        break;
+      case 'payment_intent.canceled':
+        const paymentIntentCanceled = event.data.object;
+        // Then define and call a function to handle the event payment_intent.canceled
+        break;
+      case 'payment_intent.created':
+        const paymentIntentCreated = event.data.object;
+        // Then define and call a function to handle the event payment_intent.created
+        break;
+      case 'payment_intent.partially_funded':
+        const paymentIntentPartiallyFunded = event.data.object;
+        // Then define and call a function to handle the event payment_intent.partially_funded
+        break;
+      case 'payment_intent.payment_failed':
+        const paymentIntentPaymentFailed = event.data.object;
+        // Then define and call a function to handle the event payment_intent.payment_failed
+        break;
+      case 'payment_intent.processing':
+        const paymentIntentProcessing = event.data.object;
+        // Then define and call a function to handle the event payment_intent.processing
+        break;
+      case 'payment_intent.requires_action':
+        const paymentIntentRequiresAction = event.data.object;
+        // Then define and call a function to handle the event payment_intent.requires_action
+        break;
+      case 'payment_intent.succeeded':
+        const paymentIntentSucceeded = event.data.object;
+        // Then define and call a function to handle the event payment_intent.succeeded
+        break;
+      // ... handle other event types
+      default:
+        console.log(`Unhandled event type ${event.type}`);
+    }
+  
+    // Return a 200 response to acknowledge receipt of the event
+    response.send();
+  });
+  
+  
+  
+  
+  
+
 
 
 
