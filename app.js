@@ -33,6 +33,12 @@ const stripe = require('stripe')('sk_test_51KiiRNDs0edGSqAmcnTPzbYm945ppuerWhPzk
 
 
 
+const rawBodyBuffer = (req, res, buf, encoding) => {
+  if (buf && buf.length) {
+    req.rawBody = buf.toString(encoding || 'utf8');
+  }
+};
+
 
 // some important middlewares
 app.use(bodyParser.json());
@@ -200,7 +206,8 @@ app.get('/', async (req, res) => {
   
   // This is your Stripe CLI webhook secret for testing your endpoint locally.
   const endpointSecret = "whsec_kGtoxhIdUItD5lVKQOAKpU6FSh7qYiDZ";
-  app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
+  app.post('/webhook', bodyParser.raw({type: 'application/json', verify: rawBodyBuffer}), 
+  (req, res) => {
     const sig = request.headers['stripe-signature'];
   
     console.log({sig})
