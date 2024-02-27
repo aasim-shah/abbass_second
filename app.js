@@ -204,6 +204,7 @@ app.get('/', async (req, res) => {
     const sig = request.headers['stripe-signature'];
   
     console.log({sig})
+    console.log({body : request.body})
     let event;
   
     try {
